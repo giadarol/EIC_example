@@ -22,11 +22,27 @@ Strategy = xt.slicing.Strategy
 Teapot = xt.slicing.Teapot
 
 slicing_strategies = [
-    Strategy(slicing=Teapot(1)),  # Default catch-all as in MAD-X
-    Strategy(slicing=Teapot(10), element_type=xt.Bend),
-    Strategy(slicing=Teapot(50), element_type=xt.CombinedFunctionMagnet),
-    Strategy(slicing=None, element_type=xt.Quadrupole),
-    Strategy(slicing=None, element_type=xt.Solenoid),
+    Strategy(slicing=None),  # Default
+    Strategy(slicing=Teapot(4), name='^yo.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(4), name='^yi.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(4), name='^bo.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(4), name='^bi.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(20), name='^yo.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^yi.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^bo.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^bi.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^yo.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^yi.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^bo.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^bi.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(20), name='^yi.*tq.*'),
+    Strategy(slicing=Teapot(20), name='^yo.*tq.*'),
+    Strategy(slicing=Teapot(20), name='^bo.*tq.*'),
+    Strategy(slicing=Teapot(20), name='^bi.*tq.*'),
+    Strategy(slicing=Teapot(20), name='^qds.*'),
+    Strategy(slicing=Teapot(20), name='^qus.*'),
+    Strategy(slicing=Teapot(20), name='^warm_quad.*'),
+    Strategy(slicing=Teapot(100), name='^qff.*'), # Touchy
     Strategy(slicing=None, name='b2pr'),
     Strategy(slicing=None, name='bxds9m2'),
     Strategy(slicing=None, name='bxdsds04'),
