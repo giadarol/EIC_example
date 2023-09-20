@@ -23,26 +23,32 @@ Teapot = xt.slicing.Teapot
 
 slicing_strategies = [
     Strategy(slicing=None),  # Default
-    Strategy(slicing=Teapot(4), name='^yo.*dh.*'), # Arc bends
-    Strategy(slicing=Teapot(4), name='^yi.*dh.*'), # Arc bends
-    Strategy(slicing=Teapot(4), name='^bo.*dh.*'), # Arc bends
-    Strategy(slicing=Teapot(4), name='^bi.*dh.*'), # Arc bends
-    Strategy(slicing=Teapot(20), name='^yo.*qf.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^yi.*qf.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^bo.*qf.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^bi.*qf.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^yo.*qd.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^yi.*qd.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^bo.*qd.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^bi.*qd.*'), # Arc quads
-    Strategy(slicing=Teapot(20), name='^yi.*tq.*'),
-    Strategy(slicing=Teapot(20), name='^yo.*tq.*'),
-    Strategy(slicing=Teapot(20), name='^bo.*tq.*'),
-    Strategy(slicing=Teapot(20), name='^bi.*tq.*'),
-    Strategy(slicing=Teapot(20), name='^qds.*'),
-    Strategy(slicing=Teapot(20), name='^qus.*'),
-    Strategy(slicing=Teapot(20), name='^warm_quad.*'),
-    Strategy(slicing=Teapot(100), name='^qff.*'), # Touchy
+    Strategy(slicing=Teapot(1), element_type=xt.Sextupole),
+    Strategy(slicing=Teapot(3), name='^yo.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(3), name='^yi.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(3), name='^bo.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(3), name='^bi.*dh.*'), # Arc bends
+    Strategy(slicing=Teapot(10), name='^yo.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^yi.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^bo.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^bi.*qf.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^yo.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^yi.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^bo.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(10), name='^bi.*qd.*'), # Arc quads
+    Strategy(slicing=Teapot(3), name='^yi.*tq.*'),
+    Strategy(slicing=Teapot(3), name='^yo.*tq.*'),
+    Strategy(slicing=Teapot(3), name='^bo.*tq.*'),
+    Strategy(slicing=Teapot(3), name='^bi.*tq.*'),
+    Strategy(slicing=Teapot(10), name='^qds.*'),
+    Strategy(slicing=Teapot(10), name='^qus.*'),
+    Strategy(slicing=Teapot(10), name='^warm_quad.*'),
+    Strategy(slicing=None, name='^qff.*'), # Touchy, not sliced
+    Strategy(slicing=None, name='^q1.*'),  # Touchy, not sliced
+    Strategy(slicing=None, name='^q2.*'),  # Touchy, not sliced
+    Strategy(slicing=None, name='^q3.*'),  # Touchy, not sliced
+    Strategy(slicing=None, name='^q4.*'),  # Touchy, not sliced
+    Strategy(slicing=None, name='^q5.*'),  # Touchy, not sliced
     Strategy(slicing=None, name='b2pr'),
     Strategy(slicing=None, name='bxds9m2'),
     Strategy(slicing=None, name='bxdsds04'),
@@ -75,3 +81,19 @@ line.slice_thick_elements(slicing_strategies=slicing_strategies)
 line.build_tracker()
 
 tw = line.twiss(method='4d')
+
+# Plot beta beating
+tw = line.twiss(method='4d', only_markers=True)
+tw_thick = line_thick.twiss(method='4d', only_markers=True)
+
+import matplotlib.pyplot as plt
+plt.close('all')
+plt.figure(1)
+sp1 = plt.subplot(2,1,1)
+plt.plot(tw.s, tw.betx/tw_thick.betx - 1)
+plt.ylabel(r'$\Delta \beta_x / \beta_x$')
+sp2 = plt.subplot(2,1,2, sharex=sp1)
+plt.plot(tw.s, tw.bety/tw_thick.bety - 1)
+plt.ylabel(r'$\Delta \beta_y / \beta_y$')
+plt.xlabel('s [m]')
+plt.show()
