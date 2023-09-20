@@ -86,9 +86,35 @@ tw = line.twiss(method='4d')
 tw = line.twiss(method='4d', only_markers=True)
 tw_thick = line_thick.twiss(method='4d', only_markers=True)
 
+tt = line.get_table()
+tt_thick_elems = tt.rows[(~(tt.element_type=='Drift')) & tt.isthick]
+print(f'{len(tt_thick_elems)} thick elements:')
+tt_thick_elems.show()
+
 import matplotlib.pyplot as plt
 plt.close('all')
-plt.figure(1)
+
+# Comparison Thick / Thin
+plt.figure(1, figsize=(6.4*1.5, 4.8))
+sp1 = plt.subplot(3,1,1)
+plt.plot(tw_thick.s, tw_thick.betx, label='Thick')
+plt.plot(tw.s, tw.betx, label='Thin', linestyle='--')
+plt.legend()
+plt.ylabel(r'$\beta_x$ [m]')
+
+plt.subplot(3,1,2,sharex=sp1)
+plt.plot(tw_thick.s, tw_thick.x, label='Thick')
+plt.plot(tw.s, tw.x, label='Thin', linestyle='--')
+plt.ylabel(r'$x$ [m]')
+
+plt.subplot(3,1,3,sharex=sp1)
+plt.plot(tw_thick.s, tw_thick.dx, label='Thick')
+plt.plot(tw.s, tw.dx, label='Thin', linestyle='--')
+plt.ylabel(r'$D_x$ [m]')
+plt.xlabel('s [m]')
+plt.suptitle('Comparison Thick vs Thin')
+
+plt.figure(2, figsize=(6.4*1.5, 4.8))
 sp1 = plt.subplot(2,1,1)
 plt.plot(tw.s, tw.betx/tw_thick.betx - 1)
 plt.ylabel(r'$\Delta \beta_x / \beta_x$')
